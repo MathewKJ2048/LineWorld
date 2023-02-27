@@ -1,7 +1,7 @@
 import pygame
 import math
 import json
-from Vantage import *
+from vantage import *
 import os
 import read
 
@@ -102,19 +102,9 @@ while running:
         render(line)
     pygame.display.update()
 
-
     os.system("cls")
-    p = V.project(Point(0, 0, 0))
-    if p is not None:
-        p.print()
-        x, y = V.get_x_y(p)
-        print(str(x)+" "+str(y))
-    else:
-        print("none")
-    print("Window centre:")
-    V.window_centre().print()
     print("V:")
     V.print()
-    print("theta: "+str(int(V.theta)) + "\tphi: " + str(int(V.phi)))
+    print("theta: " + str(int(V.theta)) + "\tphi: " + str(int(V.phi)))
 
     pass
