@@ -1,0 +1,12 @@
+{
+  "background": [0,0,0],
+  "foreground": [0,255,0],
+  "max_frame_rate": 60,
+  "height": 400,
+  "width": 400,
+  "velocity": 0.01,
+  "polar_velocity":0.05,
+  "azimuthal_velocity": 0.05,
+  "screen_distance": 1,
+  "scale": 100
+}
