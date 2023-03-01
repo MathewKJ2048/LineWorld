@@ -6,7 +6,7 @@ from geometry import *
 
 class Vantage(Point):
     def __init__(self, screen_distance, screen_width, screen_height):
-        super().__init__(-100, 0, 0)
+        super().__init__(-30, 0, 0)
         self.screen_distance = screen_distance
         self.screen_width = screen_width
         self.screen_height = screen_height
@@ -51,9 +51,9 @@ class Vantage(Point):
 
     def window_vertical(self):
         p = Point(
-            self.x + self.screen_distance * math.cos(math.radians(self.theta)) * math.sin(math.radians(self.phi) + 1),
-            self.y + self.screen_distance * math.sin(math.radians(self.theta)) * math.sin(math.radians(self.phi) + 1),
-            self.z + self.screen_distance * math.cos(math.radians(self.phi) + 1)
+            self.x + self.screen_distance * math.cos(math.radians(self.theta)) * math.sin(math.radians(self.phi+1)),
+            self.y + self.screen_distance * math.sin(math.radians(self.theta)) * math.sin(math.radians(self.phi+1)),
+            self.z + self.screen_distance * math.cos(math.radians(self.phi+1))
         )
         L = line_from_two_points(self, p)
         p_ = line_cut_plane_at(L, self.window_plane())
@@ -61,8 +61,8 @@ class Vantage(Point):
 
     def window_horizontal(self):
         p = Point(
-            self.x + self.screen_distance * math.cos(math.radians(self.theta) + 1) * math.sin(math.radians(self.phi)),
-            self.y + self.screen_distance * math.sin(math.radians(self.theta) + 1) * math.sin(math.radians(self.phi)),
+            self.x + self.screen_distance * math.cos(math.radians(self.theta+1)) * math.sin(math.radians(self.phi)),
+            self.y + self.screen_distance * math.sin(math.radians(self.theta+1)) * math.sin(math.radians(self.phi)),
             self.z + self.screen_distance * math.cos(math.radians(self.phi))
         )
         L = line_from_two_points(self, p)

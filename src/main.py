@@ -1,5 +1,5 @@
 import pygame
-import math
+import time
 import json
 from vantage import *
 import os
@@ -69,8 +69,16 @@ def render(line):
     point1, point2 = line
     p_1 = V.project(point1)
     p_2 = V.project(point2)
-    if p_2 is None or p_1 is None:
-        return
+    if p_2 is None or p_1 is None:  # case where line cuts through the screen
+        p_mid = line_cut_plane_at(line_from_two_points(point1, point2), V.window_plane())
+        if is_ordered(point1, p_mid, point2):
+            p_ = p_1 if p_2 is None else p_2
+            p_1 = p_
+            p_2 = p_mid
+            if p_ is None:
+                return
+        else:
+            return
     x1, y1 = V.get_x_y(p_1)
     x2, y2 = V.get_x_y(p_2)
     pygame.draw.line(screen, config["foreground"], transform(x1, y1), transform(x2, y2))
@@ -98,13 +106,16 @@ while running:
     V.step(dt)
 
     screen.fill(config["background"])
+    ti = time.time()
     for line in lines:
         render(line)
     pygame.display.update()
+    tf = time.time()
+    digits = 3
+    rt = round((tf - ti), 3)
 
     os.system("cls")
-    print("V:")
+    print("position:")
     V.print()
     print("theta: " + str(int(V.theta)) + "\tphi: " + str(int(V.phi)))
-
-    pass
+    print("render time (ns): " + str(rt))
