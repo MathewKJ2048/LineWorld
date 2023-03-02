@@ -1,36 +1,48 @@
-from geometry import *
+import json
 
-import math
-
-
-def get_lines():
-    points_a = list()
-    points_b = list()
+from geometry import Point
 
 
-    R = 10
-    r = 2
-    theta = 360
-    phi = 360
-    n = 20
-    m = 10
-    for i in range(n + 1):
-        u = math.radians(i / n * theta)
-        points_a.append([])
-        for j in range(m + 1):
-            v = math.radians(j / m * phi)
-            R_ = R + r * math.sin(v)
-            points_a[i].append(Point(R_ * math.cos(u), R_ * math.sin(u), r * math.cos(v)))
+def read():  # returns a list of tuples of points
+    figure = open("mesh.json", "r").read()
+    structures = json.loads(figure)["structures"]
+    lines = list()
+    for s in structures:
+        content = s["content"]
+        if s["type"] == "line":
+            lines += get_line(content)
+        elif s["type"] == "curve:":
+            lines += get_curve(content)
+        elif s["type"] == "surface":
+            lines += get_surface(content)
+    return lines
 
-    for j in range(m + 1):
-        v = math.radians(j / m * phi)
-        R_ = R + r * math.sin(v)
-        points_b.append([])
-        for i in range(n + 1):
-            u = math.radians(i / n * theta)
-            points_b[j].append(Point(R_ * math.cos(u), R_ * math.sin(u), r * math.cos(v)))
 
-    return double_dimension(points_b) + double_dimension(points_a)
+def get_point(p):
+    return Point(p["x"], p["y"], p["z"])
+
+
+def get_line(line):
+    p1 = get_point(line[0])
+    p2 = get_point(line[1])
+    return list().append((p1, p2))
+
+
+def get_curve(curve):
+    points = list()
+    for c in curve:
+        points.append(get_point(c))
+    return single_dimension(points)
+
+
+def get_surface(surface):
+    points = list()
+    for s in surface:
+        p = list()
+        for t in s:
+            p.append(get_point(t))
+        points.append(p)
+    return double_dimension(points)
 
 
 def single_dimension(points):
@@ -44,4 +56,9 @@ def double_dimension(points):
     lines = list()
     for i in range(len(points)):
         lines += single_dimension(points[i])
+    for j in range(len(points[0])):
+        cross_points = []
+        for i in range(len(points)):
+            cross_points.append(points[i][j])
+        lines += single_dimension(cross_points)
     return lines

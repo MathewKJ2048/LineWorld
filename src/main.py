@@ -6,6 +6,7 @@ import os
 import read
 
 pygame.init()
+pygame.display.set_caption("LineWorld")
 f = open("config.json", "r")
 config_raw = f.read()
 config = json.loads(config_raw)
@@ -51,7 +52,7 @@ def process_input():
         v_z += v_m * math.cos(math.radians(V.phi))
         v_x += v_m * math.sin(math.radians(V.phi)) * math.cos(math.radians(V.theta))
         v_y += v_m * math.sin(math.radians(V.phi)) * math.sin(math.radians(V.theta))
-    if keys[pygame.K_g]:
+    if keys[pygame.K_b]:
         v_z -= v_m * math.cos(math.radians(V.phi))
         v_x -= v_m * math.sin(math.radians(V.phi)) * math.cos(math.radians(V.theta))
         v_y -= v_m * math.sin(math.radians(V.phi)) * math.sin(math.radians(V.theta))
@@ -63,10 +64,24 @@ def process_input():
     V.w_theta = w_theta
 
 
-def render(line):
+def render_point(point):
+    global V
+    global config
+    p_ = V.project(point)
+    if p_ is None:
+        return
+    x, y = V.get_x_y(p_)
+    dist = distance_point_point(point, V)
+    radius = int(config["sphere_radius"] / (2 * dist) * config["screen_distance"] * config["scale"])
+    pygame.draw.circle(screen, config["foreground"], transform(x, y), radius, radius)
+
+
+def render_line(line):
     global V
     global config
     point1, point2 = line
+    render_point(point1)
+    render_point(point2)
     p_1 = V.project(point1)
     p_2 = V.project(point2)
     if p_2 is None or p_1 is None:  # case where line cuts through the screen
@@ -91,8 +106,7 @@ def transform(x, y):
     return [x_, y_]
 
 
-lines = read.get_lines()
-# lines.append((Point(),Point()))
+lines = read.read()
 
 running = True
 while running:
@@ -108,13 +122,13 @@ while running:
     screen.fill(config["background"])
     ti = time.time()
     for line in lines:
-        render(line)
+        render_line(line)
     pygame.display.update()
     tf = time.time()
     digits = 3
     rt = round((tf - ti), 3)
 
-    os.system("cls")
+    os.system(config["clear_screen"])
     print("position:")
     V.print()
     print("theta: " + str(int(V.theta)) + "\tphi: " + str(int(V.phi)))
