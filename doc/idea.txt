@@ -1,0 +1,55 @@
+Vector is defined by 3 dimensions
+Plane is defined by vector and one point
+Line is defined by vector and one point
+Ray is defined by vector and one point
+Line segment is defined by two points
+
+
+given L= P1_P2
+
+V = vantage, is a point
+W = window, is a plane
+
+L1 = P1_V
+L2 = P2_V
+
+P1' = L1 cut W
+P2' = L2 cut W
+L' = P1_P2
+
+W has lines LB, LT, LL and LR
+
+x_disp_1 = dist(LL,P1')
+y_disp_1 =
+x_disp_2 = dist(LL,P2')
+y_disp_2 =
+
+
+z = Rcos(phi)
+y = Rcos(theta)sin(phi)
+z = Rsin(theta)sin(phi)
+
+z:  z+  e-
+x:   w+  x-
+y:   a+  d-
+phi:  i-  k+
+theta: j+ l-
+
+
+t: go forward
+b: go back
+f: go left
+h: go right
+v: go up
+y: go down
+
+
+
+input format:
+json object, list of things:
+
+
+0) point -   {"x":x, "y":y, "z":z}
+1) line - {"type":"line","contents":[]}
+2) list of points  {"type":"curve","contents":[]}
+3) a list of lists of points {"type":"surface","contents":[[],[],[]]}

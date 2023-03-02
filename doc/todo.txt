@@ -1,0 +1,20 @@
+scope:
+no change in color
+no change in line vs plane
+no executable
+
+
+
+
+
+relative directions (get right vector etc)
+change to camera type
+redefine window vertical logic using vectors properly, no hacks
+get icon
+
+
+examples:
+sphere
+double helix
+
+
