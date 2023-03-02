@@ -26,7 +26,7 @@ An open source program to render meshes in 3D, written using pygame.
 
 1) Ensure that python version 3 is installed.
 2) Ensure that [pygame](https://www.pygame.org/news) is installed.
-3) Download all the .py files in this repository.
+3) Download all the .py files in the [src](https://github.com/MathewKJ2048/LineWorld/src) folder.
 4) Run `main.py`
 
 ## Creating meshes:
